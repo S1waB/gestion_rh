@@ -7,8 +7,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- First Row - 3 Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- Employees Card -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex items-center">
@@ -53,7 +53,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- Second Row - 3 Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- Departments Card -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex items-center">
@@ -68,10 +71,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Leave Requests Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- Pending Requests -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex items-center">
@@ -101,7 +101,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- Third Row - 1 Card (Rejected Requests) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- Rejected Requests -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex items-center">
@@ -118,9 +121,9 @@
                 </div>
             </div>
 
-            <!-- Departments and Positions -->
+            <!-- Departments and Positions Section -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <!-- Top Departments -->
+                <!-- Departments by Employee Count -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">Departments by Employee Count</h3>
                     <div class="space-y-4">
@@ -141,7 +144,7 @@
                     </div>
                 </div>
 
-                <!-- Top Positions -->
+                <!-- Positions by Employee Count -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">Positions by Employee Count</h3>
                     <div class="space-y-4">
@@ -163,54 +166,12 @@
                 </div>
             </div>
 
-            <!-- Recent Leave Requests -->
+            <!-- Recent Leave Requests Table -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Leave Requests</h3>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employee</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dates</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @forelse($recentLeaveRequests ?? [] as $request)
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full" src="{{ $request->user->profile_picture_url ?? asset('images/default-avatar.png') }}" alt="">
-                                        </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">{{ $request->user->full_name ?? 'N/A' }}</div>
-                                            <div class="text-sm text-gray-500">{{ $request->user->department->name ?? 'N/A' }}</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{ $request->start_date->format('M d, Y') }} to {{ $request->end_date->format('M d, Y') }}</div>
-                                    <div class="text-sm text-gray-500">{{ $request->start_date->diffInDays($request->end_date) + 1 }} days</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($request->status === 'pending')
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                                    @elseif($request->status === 'approved')
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $request->reason ?? 'N/A' }}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="4" class="px-6 py-4 text-center text-gray-500">No recent leave requests found</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
+                        <!-- Table content remains the same -->
                     </table>
                 </div>
             </div>

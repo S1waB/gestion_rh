@@ -12,44 +12,36 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    // In your UserController.php
     public function dashboard()
     {
-        // Employee statistics
-        $stats = [
+         $stats = [
             'totalEmployees' => User::count(),
-            'activeEmployees' => User::whereNotNull('hire_date')->count(),
+            'activeEmployees' => User::where('status', 'active')->count(),
             'newHiresThisMonth' => User::whereMonth('hire_date', now()->month)
-                ->whereYear('hire_date', now()->year)
-                ->count(),
-
-            // Department statistics
+                                     ->whereYear('hire_date', now()->year)
+                                     ->count(),
             'totalDepartments' => Department::count(),
-            'departmentsWithMostEmployees' => Department::withCount('users')
-                ->orderByDesc('users_count')
-                ->limit(5)
-                ->get(),
-
-            // Leave statistics
             'pendingLeaveRequests' => LeaveRequest::where('status', 'pending')->count(),
             'approvedLeaveRequests' => LeaveRequest::where('status', 'approved')->count(),
             'rejectedLeaveRequests' => LeaveRequest::where('status', 'rejected')->count(),
-
-            // Position statistics
+            'departmentsWithMostEmployees' => Department::withCount('users')
+                                                ->orderByDesc('users_count')
+                                                ->limit(5)
+                                                ->get(),
             'positions' => Position::withCount('users')
-                ->orderByDesc('users_count')
-                ->limit(5)
-                ->get(),
-
-            // Recent activity
-            'recentLeaveRequests' => LeaveRequest::with(['user', 'user.department'])
-                ->latest()
-                ->limit(5)
-                ->get()
+                             ->orderByDesc('users_count')
+                             ->limit(5)
+                             ->get(),
+            'recentLeaveRequests' => LeaveRequest::with('user.department')
+                                          ->latest()
+                                          ->limit(5)
+                                          ->get()
         ];
 
-        return view('admin.dashboard', $stats);
+        return view('dashboard', $stats);
+    
     }
+
 
     public function index(Request $request)
     {
